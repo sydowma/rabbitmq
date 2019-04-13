@@ -6,7 +6,10 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitConsumer {
 
+    private static final String EXCHANGE_NAME = "exchange_demo";
+    private static final String ROUTING_KEY = "routingkey_demo2";
     private static final String QUEUE_NAME = "queue_demo";
+    
     private static final String IP_ADDRESS = "127.0.0.1";
     private static final int PORT = 5672;
 
@@ -20,6 +23,10 @@ public class RabbitConsumer {
         factory.setPassword("guest");
         Connection connection = factory.newConnection(addresses);
         final Channel channel = connection.createChannel();
+        channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, null);
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
+
         channel.basicQos(64);
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
