@@ -1,3 +1,5 @@
+package com.magaofei.rabbitmq;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -25,7 +27,8 @@ public class RabbitProducer {
         channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, null);
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
-        String message = "Hello World";
+        String message = "Hello World2";
+
         channel.basicPublish(EXCHANGE_NAME, ROUTING_KEY, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes());
         channel.close();
         connection.close();

@@ -1,3 +1,5 @@
+package com.magaofei.rabbitmq;
+
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -38,7 +40,10 @@ public class RabbitConsumer {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                channel.basicAck(envelope.getDeliveryTag(), false);
+//                channel.basicAck(envelope.getDeliveryTag(), false);
+
+                System.out.println("basicReject");
+                channel.basicReject(envelope.getDeliveryTag(), true);
             }
         };
         channel.basicConsume(QUEUE_NAME, consumer);
